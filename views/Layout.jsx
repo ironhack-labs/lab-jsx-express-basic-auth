@@ -12,11 +12,7 @@ function Layout(props) {
       <body>
         <nav>
           <div>
-            <img
-              src="https://i.imgur.com/ygTOy5h.png"
-              width="80px"
-              alt="app logo"
-            />
+            <img src="/images/ih-logo.png" width="80px" alt="app logo" />
           </div>
           <ul>
             <li>
