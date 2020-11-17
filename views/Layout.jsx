@@ -16,6 +16,9 @@ function Layout(props) {
           </div>
           <ul>
             <li>
+              <a href="/">Home</a>
+            </li>
+            <li>
               <a href="/auth/signup">Signup</a>
             </li>
             <li>
