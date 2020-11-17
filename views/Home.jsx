@@ -14,7 +14,7 @@ function Home() {
       </a>
 
       <a href="/secret">
-        <button>Protected page (requires authentication!)</button>
+        <button>Protected page! only loggedin can acces</button>
       </a>
 
       <a href="/auth/logout">
