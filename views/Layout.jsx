@@ -21,6 +21,9 @@ function Layout(props) {
             <li>
               <a href="/auth/login">Login</a>
             </li>
+            <li>
+              <a href="/private">Private</a>
+            </li>
           </ul>
         </nav>
 
