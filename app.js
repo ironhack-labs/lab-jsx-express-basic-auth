@@ -7,7 +7,13 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const erv = require("express-react-views");
 const mongoose = require("mongoose");
-const indexRouter = require("./routes/indexRouter");
+
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+
+
+const authRouter = require('./routes/authRouter');
+const isLoggedIn = require('./utils/isLoggedIn');
 
 const app = express();
 const DB_NAME = "basic-auth";
@@ -34,10 +40,30 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 // SESSION MIDDLEWARE:
-// ...
-// ...
+app.use( session({
+  secret: "basic-auth-secret",
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 60 * 60 * 24 * 7 
+  })
+}));
 
 // ROUTES
-app.use("/", indexRouter);
+app.get("/", (req, res, next) => {
+  res.render('Home');
+});
+
+app.use("/auth", authRouter);
+
+app.get('/main', isLoggedIn, (req, res, next) => {
+    res.render('Main');
+});
+
+app.get('/private', isLoggedIn, (req, res, next) => {
+  res.render('Private');
+});
+
 
 module.exports = app;
