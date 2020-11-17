@@ -89,6 +89,21 @@ authRouter.post('/login', (req, res, next) => {
         .then((user) => {
             if(!user) {
                 const props = {errorMessage: "The username doesn't exist"}
+
+                res.render('Login', props);
+                return;
+            }
+            
+
+            const passwordCorrect = bcrypt.compareSync(password, user.password);
+
+            if (passwordCorrect) {
+                req.session.CurrentUser = user;
+
+                res.redirect('/');
+            } 
+            else {
+                res.render('Login', {errorMessage: 'The password is not correct'})
             }
         })
     

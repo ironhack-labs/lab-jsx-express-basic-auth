@@ -4,7 +4,7 @@ const Layout = require('./Layout');
 function Login (props) {
     return (
         <Layout>
-            <form id="login-form" action="/auth/login" method="GET">
+            <form id="login-form" action="/auth/login" method="POST">
 
                 <label>Username:</label>
                 <br/>
@@ -28,8 +28,10 @@ function Login (props) {
                 : null
             }
                 <p className="account-message">
-                Don't you have an account yet?<a href="/auth/signup">Sign up</a>
+                Don't you have an account yet? <a href="/auth/signup">Sign up</a>
                 </p>
         </Layout>
     )
 }
+
+module.exports = Login;
