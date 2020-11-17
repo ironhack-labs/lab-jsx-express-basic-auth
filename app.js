@@ -7,7 +7,13 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const erv = require("express-react-views");
 const mongoose = require("mongoose");
+
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+
 const indexRouter = require("./routes/indexRouter");
+const authRouter = require('./routes/authRouter');
+const siteRouter = require("./routes/site.Router");
 
 const app = express();
 const DB_NAME = "basic-auth";
@@ -32,12 +38,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json());
 
 // SESSION MIDDLEWARE:
-// ...
-// ...
+app.use( session({
+  secret: "basic-auth-secret",
+  // cookie: { maxAge: 3600000 * 1 },	// 1 hour
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 60 * 60 * 24 * 7 // Time to live - 7 days (14 days - Default)
+  })
+}));
 
 // ROUTES
 app.use("/", indexRouter);
+app.use("/auth", authRouter);
+app.use("/site", siteRouter);
 
 module.exports = app;
