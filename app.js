@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+// packages
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -8,8 +8,15 @@ const logger = require("morgan");
 const erv = require("express-react-views");
 const mongoose = require("mongoose");
 const indexRouter = require("./routes/indexRouter");
+const authRouter = require('./routes/authRouter');
+const siteRouter = require("./routes/siteRouter");
 
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+
+// start server
 const app = express();
+// DB name
 const DB_NAME = "basic-auth";
 
 // DB CONNECTION
@@ -34,10 +41,34 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 // SESSION MIDDLEWARE:
-// ...
-// ...
+// MIDDLEWARE
+app.use(logger("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
+
+// SESSIONS MIDDLEWARE
+app.use( session({
+  secret: "basic-auth-secret",
+  // cookie: { maxAge: 3600000 * 1 },	// 1 hour
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 60 * 60 * 24 * 7 // Time to live - 7 days (14 days - Default)
+  })
+}));
+
 
 // ROUTES
 app.use("/", indexRouter);
+
+// ROUTES FOR THE SIGNUP
+app.use("/auth", authRouter);
+
+// ROUTES 
+app.use("/", siteRouter);
+
 
 module.exports = app;
