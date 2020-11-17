@@ -8,6 +8,7 @@ const logger = require("morgan");
 const erv = require("express-react-views");
 const mongoose = require("mongoose");
 const indexRouter = require("./routes/indexRouter");
+const authRouter = require('./routes/authRouter');
 
 const app = express();
 const DB_NAME = "basic-auth";
@@ -39,5 +40,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // ROUTES
 app.use("/", indexRouter);
+app.use("/auth", authRouter);
 
 module.exports = app;
