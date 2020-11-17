@@ -34,7 +34,7 @@ _In this lab, you literally have to recreate materials your instructors went thr
 After forking and cloning the project, you will have to install all the dependencies:
 
 ```sh
-$ cd lab-express-basic-auth
+$ cd lab-jsx-express-basic-auth
 $ npm install
 ```
 
