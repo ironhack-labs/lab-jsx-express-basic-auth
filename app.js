@@ -9,12 +9,15 @@ const erv = require("express-react-views");
 const mongoose = require("mongoose");
 const indexRouter = require("./routes/indexRouter");
 
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+
 const app = express();
 const DB_NAME = "basic-auth";
 
 // DB CONNECTION
 mongoose
-  .connect(`mongodb://localhost:27017/${DB_NAME}`, {
+  .connect(`mongodb://localhost/${DB_NAME}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -33,9 +36,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-// SESSION MIDDLEWARE:
-// ...
-// ...
+// SESSIONS MIDDLEWARE:
+app.use(
+  session({
+    secret: "basic-auth-secret",
+    // cookie: { maxAge: 3600000 * 1 },	// 1 hour
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+      //ttl: 60 * 60 * 24 * 7 // Time to live - 7 days (14 days - Default)
+      ttl: 10,
+    }),
+  })
+);
 
 // ROUTES
 app.use("/", indexRouter);
