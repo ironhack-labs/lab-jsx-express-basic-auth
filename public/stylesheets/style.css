@@ -48,3 +48,12 @@ nav ul li a {
   color: white;
   text-decoration: none;
 }
+
+.error-message {
+  background-color: rgb(128, 25, 25);
+  box-sizing: border-box;
+  color: white;
+  margin: 20px auto;
+  padding: 20px;
+  width: 100%;
+}
