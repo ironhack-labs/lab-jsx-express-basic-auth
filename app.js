@@ -7,10 +7,16 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const erv = require("express-react-views");
 const mongoose = require("mongoose");
-const indexRouter = require("./routes/indexRouter");
+
+const authRouter = require("./routes/authRouter");
+const siteRouter = require("./routes/siteRouter");
+
+
+const session = require("express-session")
+const  MongoStore  = require("connect-mongo")(session);
 
 const app = express();
-const DB_NAME = "basic-auth";
+const DB_NAME = "node-basic-auth";
 
 // DB CONNECTION
 mongoose
@@ -37,7 +43,28 @@ app.use(express.static(path.join(__dirname, "public")));
 // ...
 // ...
 
+app.use( session ({
+  secret: "basic-auth-secret",
+    // cookie: { maxAge: 3600000 * 1 },	// 1 hour
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 60*60*24*7
+  })
+}))
+
+
 // ROUTES
-app.use("/", indexRouter);
+
+app.get("/", (req, res, next)=>{
+  res.render("Home")
+})
+
+
+app.use("/auth", authRouter);
+app.use("/", siteRouter)
+
+
 
 module.exports = app;
