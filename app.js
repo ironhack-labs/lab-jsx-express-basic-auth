@@ -13,6 +13,7 @@ const MongoStore = require('connect-mongo')(session);
 
 const indexRouter = require("./routes/indexRouter");
 const authRouter = require('./routes/authRouter');
+const siteRouter = require("./routes/site.Router");
 
 const app = express();
 const DB_NAME = "basic-auth";
@@ -37,6 +38,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json());
 
 // SESSION MIDDLEWARE:
 app.use( session({
@@ -53,5 +55,6 @@ app.use( session({
 // ROUTES
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
+app.use("/site", siteRouter);
 
 module.exports = app;
