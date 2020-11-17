@@ -19,13 +19,16 @@ function Layout(props) {
               <a href="/auth/signup">Signup</a>
             </li>
             <li>
-              <a href="/auth/login">Login</a>
+              <a href="/auth/login" onClick="validateForm()">
+                Login
+              </a>
             </li>
           </ul>
         </nav>
 
         {props.children}
       </body>
+      <script src="/javascripts/checks.js"></script>
     </html>
   );
 }
