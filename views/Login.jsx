@@ -1,10 +1,10 @@
 const React = require("react");
 const Layout = require("./Layout");
 
-function Signup(props) {
+function Login(props) {
   return(
-    <Layout title="Sign up">
-      <form action="/auth/signup" method="POST">
+    <Layout title="Log in">
+      <form action="/auth/login" method="POST">
       <label>Username:</label>
       <input type="text" name="username" />
       <br />
@@ -12,7 +12,7 @@ function Signup(props) {
       <input type="text" name="password" />
       
       <br />
-      <button type="submit">CREATE ACCOUNT</button>
+      <button type="submit">LOG IN</button>
     {
         props.errorMessage
           ?<div>{props.errorMessage}</div>
@@ -24,4 +24,4 @@ function Signup(props) {
   )
 }
 
-module.exports = Signup;
+module.exports = Login;
