@@ -1,4 +1,5 @@
 const React = require("react");
+const siteRouter = require("../routes/siteRouter");
 
 function Layout(props) {
   return (
@@ -18,9 +19,18 @@ function Layout(props) {
             <li>
               <a href="/auth/signup">Signup</a>
             </li>
+
             <li>
               <a href="/auth/login">Login</a>
             </li>
+
+            {/*userIsLoggedIn ? (*/}
+              <li>
+                <a href="/auth/logout">Logout</a>
+              </li>
+           {/* ) : ( */ }
+              
+           {/* )} */}
           </ul>
         </nav>
 
@@ -28,6 +38,6 @@ function Layout(props) {
       </body>
     </html>
   );
-}
 
+console.log("props on layout page",props); }
 module.exports = Layout;
