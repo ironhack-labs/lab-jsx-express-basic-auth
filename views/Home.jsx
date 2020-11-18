@@ -4,7 +4,7 @@ const Layout = require("./Layout");
 function Home() {
   return (
     <Layout title="Home Page">
-      <h1>Home Page</h1>
+      <h1>Home Page Jamie</h1>
     </Layout>
   );
 }
